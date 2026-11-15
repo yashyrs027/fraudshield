@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: fraudshield
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ---- Backend (Node) ----
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install backend deps
+        working-directory: ./server
+        run: |
+          npm ci
+
+      - name: Run backend tests
+        working-directory: ./server
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/fraudshield
+          JWT_ACCESS_SECRET: test_access_secret
+          JWT_REFRESH_SECRET: test_refresh_secret
+          AI_SERVICE_URL: http://localhost:8000/api/v1   # fallback will trigger rule engine
+        run: npm test
+
+      # ---- AI Service (Python) ----
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install AI deps
+        working-directory: ./ai_service
+        run: |
+          python -m pip install -r requirements.txt
+
+      - name: Run AI service tests
+        working-directory: ./ai_service
+        run: |
+          pytest tests/
