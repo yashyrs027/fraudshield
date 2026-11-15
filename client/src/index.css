@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #0A192F;
+    --bg-secondary: #112240;
+    --bg-tertiary: #1E3A8A;
+    --bg-card: #112240;
+    --border-color: rgba(255, 255, 255, 0.12);
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --accent-teal: #0D9488;
+    --accent-teal-light: #14B8A6;
+    --accent-cyan: #06B6D4;
+    --status-safe: #10B981;
+    --status-caution: #F59E0B;
+    --status-danger: #EA580C;
+    --status-critical: #DC2626;
+  }
+
+  /* Light Theme Override */
+  [data-theme="light"] {
+    --bg-primary: #F8FAFC;
+    --bg-secondary: #FFFFFF;
+    --bg-tertiary: #E2E8F0;
+    --bg-card: #FFFFFF;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+  }
+
+  /* Senior Citizen / High Accessibility Mode */
+  [data-senior="true"] {
+    font-size: 112.5%; /* Increase base font from 16px to 18px */
+    --border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  [data-theme="light"][data-senior="true"] {
+    --border-color: rgba(0, 0, 0, 0.3);
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Accessibility & FinTech Utility Classes */
+.bg-navy-950 { background-color: #0A192F; }
+.bg-navy-900 { background-color: #112240; }
+.bg-navy-850 { background-color: #162a4d; }
+.bg-navy-800 { background-color: #1E3A8A; }
+.bg-navy-700 { background-color: #233554; }
+
+.border-navy-700 { border-color: #233554; }
+.border-navy-600 { border-color: #3b5278; }
+
+.text-teal-400 { color: #14B8A6; }
+.text-teal-500 { color: #0D9488; }
+.bg-teal-500 { background-color: #0D9488; }
+.bg-teal-600 { background-color: #0F766E; }
+
+.senior-target {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Smooth Focus Ring for Accessibility */
+*:focus-visible {
+  outline: 2px solid #14B8A6;
+  outline-offset: 2px;
+}

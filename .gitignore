@@ -1,0 +1,27 @@
+# Node
+node_modules/
+npm-debug.log
+*.log
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Docker
+docker-compose.override.yml
+*.dockerignore
+
+# Secrets
+*.pem
+*.key
+
+# OS files
+.DS_Store
+Thumbs.db
